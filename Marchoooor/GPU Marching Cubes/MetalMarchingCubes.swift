@@ -12,8 +12,6 @@ class MetalMarchingCubes {
     
     private let arrayLength: Int
     private let bufferSize: Int
-    private let positionXBufferLength: Int
-    private let positionCountBufferLength: Int
     
     let device: MTLDevice
     let pipelineState: MTLComputePipelineState
@@ -48,17 +46,10 @@ class MetalMarchingCubes {
         let edgeTableLength = MarchingCubes.edgeTable.count
         
         print(device.maxBufferLength)
-        print(arrayLength * 20 * MemoryLayout<Float32>.size)
-        
         print(device.maxThreadgroupMemoryLength)
         print(device.maxArgumentBufferSamplerCount)
         print(device.recommendedMaxWorkingSetSize)
-        
-//        print(MemoryLayout<Float32>.size * 41 * 41 * 41)
-        
-        self.positionCountBufferLength = arrayLength * MemoryLayout<Int32>.size
-        self.positionXBufferLength = arrayLength * 20 * MemoryLayout<Float32>.size
-        
+                        
         guard let defaultLibrary = device.makeDefaultLibrary() else { fatalError() }
         guard let computeCubeFunction = defaultLibrary.makeFunction(name: "compute_cube") else { fatalError() }
         self.pipelineState = try! device.makeComputePipelineState(function: computeCubeFunction)
