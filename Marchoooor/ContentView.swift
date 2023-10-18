@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+
+    let marchingCubes = MarchingCubesTester()
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Button("March") {
+                compareGpuAndCpu()
+            }
         }
         .padding()
+    }
+    
+    func compareGpuAndCpu() {
+        
+        let results = marchingCubes.gpuMarchingCubes.getPositionCounts()
+        for r in results {
+            print(r)
+        }
+        
     }
 }
 

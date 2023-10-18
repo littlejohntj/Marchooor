@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		61579CB92AD0AEA500E8A8E4 /* CPUMarchingCubes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61579CB82AD0AEA500E8A8E4 /* CPUMarchingCubes.swift */; };
+		61579CBC2AD0CBA700E8A8E4 /* MetalTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61579CBB2AD0CBA700E8A8E4 /* MetalTesting.swift */; };
 		61F26F942ACA9E9300B7AA3F /* MarchoooorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26F932ACA9E9300B7AA3F /* MarchoooorApp.swift */; };
 		61F26F962ACA9E9300B7AA3F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26F952ACA9E9300B7AA3F /* ContentView.swift */; };
 		61F26F982ACA9E9300B7AA3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61F26F972ACA9E9300B7AA3F /* Assets.xcassets */; };
@@ -14,6 +16,14 @@
 		61F26FA52ACA9E9400B7AA3F /* MarchoooorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26FA42ACA9E9400B7AA3F /* MarchoooorTests.swift */; };
 		61F26FAF2ACA9E9400B7AA3F /* MarchoooorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26FAE2ACA9E9400B7AA3F /* MarchoooorUITests.swift */; };
 		61F26FB12ACA9E9400B7AA3F /* MarchoooorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26FB02ACA9E9400B7AA3F /* MarchoooorUITestsLaunchTests.swift */; };
+		61F26FC22ACA9F2C00B7AA3F /* MetalComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26FBE2ACA9F2C00B7AA3F /* MetalComponent.swift */; };
+		61F26FC32ACA9F2C00B7AA3F /* ComputeCube.metal in Sources */ = {isa = PBXBuildFile; fileRef = 61F26FBF2ACA9F2C00B7AA3F /* ComputeCube.metal */; };
+		61F26FC42ACA9F2C00B7AA3F /* MetalMarchingCubes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26FC02ACA9F2C00B7AA3F /* MetalMarchingCubes.swift */; };
+		61F26FC52ACA9F2C00B7AA3F /* MetalSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26FC12ACA9F2C00B7AA3F /* MetalSystem.swift */; };
+		61F26FC82ACA9F8000B7AA3F /* MarchingCubes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26FC72ACA9F8000B7AA3F /* MarchingCubes.swift */; };
+		61F26FCA2ACA9F8D00B7AA3F /* PerlinNoise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26FC92ACA9F8D00B7AA3F /* PerlinNoise.swift */; };
+		61F26FCC2ACAA02E00B7AA3F /* GPUMarchingCubes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26FCB2ACAA02E00B7AA3F /* GPUMarchingCubes.swift */; };
+		61F26FCE2ACAA10500B7AA3F /* MarchingCubesTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26FCD2ACAA10500B7AA3F /* MarchingCubesTester.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		61579CB82AD0AEA500E8A8E4 /* CPUMarchingCubes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUMarchingCubes.swift; sourceTree = "<group>"; };
+		61579CBB2AD0CBA700E8A8E4 /* MetalTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalTesting.swift; sourceTree = "<group>"; };
 		61F26F902ACA9E9300B7AA3F /* Marchoooor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marchoooor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61F26F932ACA9E9300B7AA3F /* MarchoooorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarchoooorApp.swift; sourceTree = "<group>"; };
 		61F26F952ACA9E9300B7AA3F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +56,14 @@
 		61F26FAA2ACA9E9400B7AA3F /* MarchoooorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarchoooorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61F26FAE2ACA9E9400B7AA3F /* MarchoooorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarchoooorUITests.swift; sourceTree = "<group>"; };
 		61F26FB02ACA9E9400B7AA3F /* MarchoooorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarchoooorUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		61F26FBE2ACA9F2C00B7AA3F /* MetalComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalComponent.swift; sourceTree = "<group>"; };
+		61F26FBF2ACA9F2C00B7AA3F /* ComputeCube.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = ComputeCube.metal; sourceTree = "<group>"; };
+		61F26FC02ACA9F2C00B7AA3F /* MetalMarchingCubes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalMarchingCubes.swift; sourceTree = "<group>"; };
+		61F26FC12ACA9F2C00B7AA3F /* MetalSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalSystem.swift; sourceTree = "<group>"; };
+		61F26FC72ACA9F8000B7AA3F /* MarchingCubes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarchingCubes.swift; sourceTree = "<group>"; };
+		61F26FC92ACA9F8D00B7AA3F /* PerlinNoise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerlinNoise.swift; sourceTree = "<group>"; };
+		61F26FCB2ACAA02E00B7AA3F /* GPUMarchingCubes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPUMarchingCubes.swift; sourceTree = "<group>"; };
+		61F26FCD2ACAA10500B7AA3F /* MarchingCubesTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarchingCubesTester.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +91,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		61579CB72AD0AE6400E8A8E4 /* CPU Marching Cubes */ = {
+			isa = PBXGroup;
+			children = (
+				61579CB82AD0AEA500E8A8E4 /* CPUMarchingCubes.swift */,
+			);
+			path = "CPU Marching Cubes";
+			sourceTree = "<group>";
+		};
+		61579CBA2AD0CB9900E8A8E4 /* Metal Testing */ = {
+			isa = PBXGroup;
+			children = (
+				61579CBB2AD0CBA700E8A8E4 /* MetalTesting.swift */,
+			);
+			path = "Metal Testing";
+			sourceTree = "<group>";
+		};
 		61F26F872ACA9E9300B7AA3F = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +133,11 @@
 				61F26F932ACA9E9300B7AA3F /* MarchoooorApp.swift */,
 				61F26F952ACA9E9300B7AA3F /* ContentView.swift */,
 				61F26F972ACA9E9300B7AA3F /* Assets.xcassets */,
+				61F26FCD2ACAA10500B7AA3F /* MarchingCubesTester.swift */,
+				61579CBA2AD0CB9900E8A8E4 /* Metal Testing */,
+				61F26FC62ACA9F6F00B7AA3F /* MarchingCubes */,
+				61579CB72AD0AE6400E8A8E4 /* CPU Marching Cubes */,
+				61F26FBD2ACA9F1E00B7AA3F /* GPU Marching Cubes */,
 				61F26F992ACA9E9300B7AA3F /* Preview Content */,
 			);
 			path = Marchoooor;
@@ -125,6 +166,27 @@
 				61F26FB02ACA9E9400B7AA3F /* MarchoooorUITestsLaunchTests.swift */,
 			);
 			path = MarchoooorUITests;
+			sourceTree = "<group>";
+		};
+		61F26FBD2ACA9F1E00B7AA3F /* GPU Marching Cubes */ = {
+			isa = PBXGroup;
+			children = (
+				61F26FCB2ACAA02E00B7AA3F /* GPUMarchingCubes.swift */,
+				61F26FBF2ACA9F2C00B7AA3F /* ComputeCube.metal */,
+				61F26FBE2ACA9F2C00B7AA3F /* MetalComponent.swift */,
+				61F26FC02ACA9F2C00B7AA3F /* MetalMarchingCubes.swift */,
+				61F26FC12ACA9F2C00B7AA3F /* MetalSystem.swift */,
+			);
+			path = "GPU Marching Cubes";
+			sourceTree = "<group>";
+		};
+		61F26FC62ACA9F6F00B7AA3F /* MarchingCubes */ = {
+			isa = PBXGroup;
+			children = (
+				61F26FC72ACA9F8000B7AA3F /* MarchingCubes.swift */,
+				61F26FC92ACA9F8D00B7AA3F /* PerlinNoise.swift */,
+			);
+			path = MarchingCubes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,7 +319,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61F26FC52ACA9F2C00B7AA3F /* MetalSystem.swift in Sources */,
+				61F26FC42ACA9F2C00B7AA3F /* MetalMarchingCubes.swift in Sources */,
+				61F26FC82ACA9F8000B7AA3F /* MarchingCubes.swift in Sources */,
+				61579CB92AD0AEA500E8A8E4 /* CPUMarchingCubes.swift in Sources */,
 				61F26F962ACA9E9300B7AA3F /* ContentView.swift in Sources */,
+				61F26FCA2ACA9F8D00B7AA3F /* PerlinNoise.swift in Sources */,
+				61579CBC2AD0CBA700E8A8E4 /* MetalTesting.swift in Sources */,
+				61F26FC22ACA9F2C00B7AA3F /* MetalComponent.swift in Sources */,
+				61F26FCE2ACAA10500B7AA3F /* MarchingCubesTester.swift in Sources */,
+				61F26FC32ACA9F2C00B7AA3F /* ComputeCube.metal in Sources */,
+				61F26FCC2ACAA02E00B7AA3F /* GPUMarchingCubes.swift in Sources */,
 				61F26F942ACA9E9300B7AA3F /* MarchoooorApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,7 +494,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Marchoooor/Preview Content\"";
-				DEVELOPMENT_TEAM = 6WG4U2Q58V;
+				DEVELOPMENT_TEAM = KW8RLKUW3C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -435,7 +507,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.teej.Marchoooor;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tkc.Marchoooor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -451,7 +523,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Marchoooor/Preview Content\"";
-				DEVELOPMENT_TEAM = 6WG4U2Q58V;
+				DEVELOPMENT_TEAM = KW8RLKUW3C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -464,7 +536,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.teej.Marchoooor;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tkc.Marchoooor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
