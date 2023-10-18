@@ -27,15 +27,17 @@ class MetalMarchingCubes {
     var bufferEdgeTable: MTLBuffer
     var bufferEdgeTableOffsets: MTLBuffer
     var bufferEdgeTableSize: MTLBuffer
-//    var bufferEdgeTableCount: MTLBuffer
     var bufferCubeDistance: MTLBuffer
     var bufferIsoLevel: MTLBuffer
     var bufferPositionsX: MTLBuffer
-//    var bufferPositionsY: MTLBuffer
-//    var bufferPositionsZ: MTLBuffer
     var bufferPositionCount: MTLBuffer
 //    var bufferCubeIndex: MTLBuffer
 //    var bufferPerlin: MTLBuffer
+    //    var bufferPositionsY: MTLBuffer
+    //    var bufferPositionsZ: MTLBuffer
+    //    var bufferEdgeTableCount: MTLBuffer
+
+
     
     init( device: MTLDevice, arrayLength: Int ) {
                 
@@ -72,7 +74,7 @@ class MetalMarchingCubes {
         self.bufferEdgeTableSize = device.makeBuffer(length: edgeTableLength * MemoryLayout<Int32>.size, options: .storageModeShared)!
         self.bufferCubeDistance = device.makeBuffer(length: MemoryLayout<Float32>.size, options: .storageModeShared)!
         self.bufferIsoLevel = device.makeBuffer(length: MemoryLayout<Float32>.size, options: .storageModeShared)!
-        self.bufferPositionsX = device.makeBuffer(length: arrayLength * 20 * MemoryLayout<Float32>.size, options: .storageModeShared)!
+        self.bufferPositionsX = device.makeBuffer(length: arrayLength * MemoryLayout<Float32>.size, options: .storageModeShared)!
         self.bufferPositionCount = device.makeBuffer(length: arrayLength * MemoryLayout<Int32>.size , options: .storageModeShared)!
 
 //        self.bufferPositionsY = device.makeBuffer(length: arrayLength * 20 * MemoryLayout<Float32>.size, options: .storageModeShared)!
