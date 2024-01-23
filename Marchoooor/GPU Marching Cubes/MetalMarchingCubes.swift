@@ -12,6 +12,7 @@ class MetalMarchingCubes {
     
     private let arrayLength: Int
     private let bufferSize: Int
+    private let influenceSize = MemoryLayout<Float32>.size + MemoryLayout<Float32>.size + MemoryLayout<Int32>.size + MemoryLayout<Float32>.size + MemoryLayout<Float32>.size
     
     let device: MTLDevice
     let pipelineState: MTLComputePipelineState
@@ -27,12 +28,14 @@ class MetalMarchingCubes {
     var bufferEdgeTableSize: MTLBuffer
     var bufferCubeDistance: MTLBuffer
     var bufferIsoLevel: MTLBuffer
+    var bufferInfluences: MTLBuffer
+    var bufferInfluenceCount: MTLBuffer
     var bufferPositionsX: MTLBuffer
+    var bufferPositionsY: MTLBuffer
+    var bufferPositionsZ: MTLBuffer
     var bufferPositionCount: MTLBuffer
 //    var bufferCubeIndex: MTLBuffer
 //    var bufferPerlin: MTLBuffer
-    //    var bufferPositionsY: MTLBuffer
-    //    var bufferPositionsZ: MTLBuffer
     //    var bufferEdgeTableCount: MTLBuffer
 
 
@@ -45,11 +48,7 @@ class MetalMarchingCubes {
         }
         let edgeTableLength = MarchingCubes.edgeTable.count
         
-        print(device.maxBufferLength)
-        print(device.maxThreadgroupMemoryLength)
-        print(device.maxArgumentBufferSamplerCount)
-        print(device.recommendedMaxWorkingSetSize)
-                        
+        
         guard let defaultLibrary = device.makeDefaultLibrary() else { fatalError() }
         guard let computeCubeFunction = defaultLibrary.makeFunction(name: "compute_cube") else { fatalError() }
         self.pipelineState = try! device.makeComputePipelineState(function: computeCubeFunction)
@@ -65,11 +64,14 @@ class MetalMarchingCubes {
         self.bufferEdgeTableSize = device.makeBuffer(length: edgeTableLength * MemoryLayout<Int32>.size, options: .storageModeShared)!
         self.bufferCubeDistance = device.makeBuffer(length: MemoryLayout<Float32>.size, options: .storageModeShared)!
         self.bufferIsoLevel = device.makeBuffer(length: MemoryLayout<Float32>.size, options: .storageModeShared)!
-        self.bufferPositionsX = device.makeBuffer(length: arrayLength * MemoryLayout<Float32>.size, options: .storageModeShared)!
+        self.bufferInfluences = device.makeBuffer(length: 100 * influenceSize, options: .storageModeShared)!
+        self.bufferInfluenceCount = device.makeBuffer(length: MemoryLayout<Int32>.size, options: .storageModeShared)!
+        self.bufferPositionsX = device.makeBuffer(length:  arrayLength * 20 * MemoryLayout<Float32>.size, options: .storageModeShared)!
+        self.bufferPositionsY = device.makeBuffer(length: arrayLength * 20 * MemoryLayout<Float32>.size, options: .storageModeShared)!
+        self.bufferPositionsZ = device.makeBuffer(length: arrayLength * 20 * MemoryLayout<Float32>.size, options: .storageModeShared)!
+
         self.bufferPositionCount = device.makeBuffer(length: arrayLength * MemoryLayout<Int32>.size , options: .storageModeShared)!
 
-//        self.bufferPositionsY = device.makeBuffer(length: arrayLength * 20 * MemoryLayout<Float32>.size, options: .storageModeShared)!
-//        self.bufferPositionsZ = device.makeBuffer(length: arrayLength * 20 * MemoryLayout<Float32>.size, options: .storageModeShared)!
 //        self.bufferCubeIndex = device.makeBuffer(length: arrayLength * MemoryLayout<Int32>.size , options: .storageModeShared)!
 //        self.bufferPerlin = device.makeBuffer(length: arrayLength * MemoryLayout<Float32>.size, options: .storageModeShared)!
         
@@ -84,7 +86,7 @@ class MetalMarchingCubes {
         dataPtr.storeBytes(of: Float.random(in: 0...20), as: Float.self)
     }
     
-    func setData( cubeDistance: Float, isoLevel: Float, units: Int ) {
+    func setData( cubeDistance: Float, isoLevel: Float, units: Int, influences: [TerrainInfluence] ) {
         
         let bufferEncodedInputsPtr = self.bufferEncodedInputs.contents()
         let bufferXPtr = self.bufferX.contents()
@@ -92,7 +94,8 @@ class MetalMarchingCubes {
         let bufferZPtr = self.bufferZ.contents()
         let cubeDistancePtr = self.bufferCubeDistance.contents()
         let isoLevelPtr = self.bufferIsoLevel.contents()
-        
+        let influencePtr = self.bufferInfluences.contents()
+        let influenceCountPtr = self.bufferInfluenceCount.contents()
         
         let intLen: Int = MemoryLayout<Int32>.size
         let floatLen: Int = MemoryLayout<Float32>.size
@@ -115,6 +118,16 @@ class MetalMarchingCubes {
         
         cubeDistancePtr.storeBytes(of: Float32(cubeDistance), as: Float32.self)
         isoLevelPtr.storeBytes(of: Float32(isoLevel), as: Float32.self)
+        
+        influenceCountPtr.storeBytes(of: Int32(influences.count), as: Int32.self)
+        for (influenceIndex, influence) in influences.enumerated() {
+            print(influence)
+            influencePtr.storeBytes(of: Float32(influence.x), toByteOffset: influenceIndex * influenceSize, as: Float32.self)
+            influencePtr.storeBytes(of: Float32(influence.z), toByteOffset: ( influenceIndex * influenceSize ) + floatLen, as: Float32.self )
+            influencePtr.storeBytes(of: Int32(influence.mode == .lower ? 0 : 1 ), toByteOffset: ( influenceIndex * influenceSize ) + floatLen + floatLen, as: Int32.self )
+            influencePtr.storeBytes(of: Float32(influence.radius ), toByteOffset: ( influenceIndex * influenceSize ) + floatLen + floatLen + intLen, as: Float32.self )
+            influencePtr.storeBytes(of: Float32(influence.strength ), toByteOffset: ( influenceIndex * influenceSize ) + floatLen + floatLen + intLen + floatLen, as: Float32.self )
+        }
         
     }
         
@@ -205,8 +218,12 @@ class MetalMarchingCubes {
         encoder.setBuffer(bufferEdgeTableSize, offset: 0, index: 7)
         encoder.setBuffer(bufferCubeDistance, offset: 0, index: 8)
         encoder.setBuffer(bufferIsoLevel, offset: 0, index: 9)
-        encoder.setBuffer(bufferPositionsX, offset: 0, index: 10)
-        encoder.setBuffer(bufferPositionCount, offset: 0, index: 11)
+        encoder.setBuffer(bufferInfluences, offset: 0, index: 10)
+        encoder.setBuffer(bufferInfluenceCount, offset: 0, index: 11)
+        encoder.setBuffer(bufferPositionsX, offset: 0, index: 12)
+        encoder.setBuffer(bufferPositionsY, offset: 0, index: 13)
+        encoder.setBuffer(bufferPositionsZ, offset: 0, index: 14)
+        encoder.setBuffer(bufferPositionCount, offset: 0, index: 15)
         
         let gridSize = MTLSize(width: arrayLength, height: 1, depth: 1)
         var threadGroupSize = pipelineState.maxTotalThreadsPerThreadgroup
@@ -214,36 +231,40 @@ class MetalMarchingCubes {
             threadGroupSize = arrayLength
         }
         let threadgroupSize = MTLSizeMake(threadGroupSize, 1, 1);
-        encoder.dispatchThreadgroups(gridSize, threadsPerThreadgroup: threadgroupSize)
+        encoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadgroupSize)
         
     }
         
     func getResults() -> [SIMD3<Float>] {
         
         var positions: [SIMD3<Float>] = []
-//        let intLen: Int = MemoryLayout<Int32>.size
-//        let floatLen: Int  = MemoryLayout<Float32>.size
-//        let resultsBufferPtr = resultBuffer.contents()
-//        let positionCounts = (0..<positionCountBufferLength).map { index in
-//            return resultsBufferPtr.load(fromByteOffset: index * intLen, as: Int32.self)
-//        }
+        
+        let intLen: Int = MemoryLayout<Int32>.size
+        let floatLen: Int  = MemoryLayout<Float32>.size
+        
+        let resultsBufferPtr = bufferPositionCount.contents()
+        let positionXBufferPtr = bufferPositionsX.contents()
+        let positionYBufferPtr = bufferPositionsY.contents()
+        let positionZBufferPtr = bufferPositionsZ.contents()
+        
+        let positionCounts = (0..<arrayLength).map { index in
+            return resultsBufferPtr.load(fromByteOffset: index * intLen, as: Int32.self)
+        }
                 
-//        for ( index, count ) in positionCounts.enumerated() {
-//            
-//            if ( count != 0 ) {
-//                
-//                for i in 0..<count {
-//                    let gpuXposition = bufferPositionXPtr.load(fromByteOffset: ( ( 20 * index ) + Int(i) ) * MemoryLayout<Float32>.size , as: Float32.self)
-//                    let gpuYposition = bufferPositionYPtr.load(fromByteOffset: ( ( 20 * index ) + Int(i) ) * MemoryLayout<Float32>.size , as: Float32.self)
-//                    let gpuZposition = bufferPositionZPtr.load(fromByteOffset: ( ( 20 * index ) + Int(i) ) * MemoryLayout<Float32>.size , as: Float32.self)
-//                    positions.append([gpuXposition, gpuYposition, gpuZposition])
-//                }
-//                
-//            }
-//            
-//            
-//            
-//        }
+        for ( index, count ) in positionCounts.enumerated() {
+            
+            if ( count != 0 ) {
+                
+                for i in 0..<count {
+                    let gpuXposition = positionXBufferPtr.load(fromByteOffset: ( ( 20 * index ) + Int(i) ) * floatLen , as: Float32.self)
+                    let gpuYposition = positionYBufferPtr.load(fromByteOffset: ( ( 20 * index ) + Int(i) ) * floatLen , as: Float32.self)
+                    let gpuZposition = positionZBufferPtr.load(fromByteOffset: ( ( 20 * index ) + Int(i) ) * floatLen , as: Float32.self)
+                    positions.append([gpuXposition, gpuYposition, gpuZposition])
+                }
+                
+            }
+        
+        }
         
         return positions
     }

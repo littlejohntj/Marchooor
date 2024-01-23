@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		611BC5872AE3003D005A6B2E /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 611BC5862AE3003D005A6B2E /* ComposableArchitecture */; };
+		611BC58B2AE3019A005A6B2E /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BC58A2AE3019A005A6B2E /* AppFeature.swift */; };
+		611BC58E2AE301EA005A6B2E /* TerrainFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BC58D2AE301EA005A6B2E /* TerrainFeature.swift */; };
+		611BC5902AE302C4005A6B2E /* TerrainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BC58F2AE302C4005A6B2E /* TerrainView.swift */; };
+		611BC5922AE30357005A6B2E /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BC5912AE30357005A6B2E /* AppView.swift */; };
+		611BC5942AE30FF0005A6B2E /* TerrainComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BC5932AE30FF0005A6B2E /* TerrainComponent.swift */; };
+		611BC5962AE337AD005A6B2E /* Terrain+Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BC5952AE337AD005A6B2E /* Terrain+Scene.swift */; };
+		611BC5982AE342FF005A6B2E /* TerrainInfluence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BC5972AE342FF005A6B2E /* TerrainInfluence.swift */; };
+		612479152AE1ACE000C3D046 /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612479142AE1ACE000C3D046 /* ARKit.framework */; };
 		61579CB92AD0AEA500E8A8E4 /* CPUMarchingCubes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61579CB82AD0AEA500E8A8E4 /* CPUMarchingCubes.swift */; };
 		61579CBC2AD0CBA700E8A8E4 /* MetalTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61579CBB2AD0CBA700E8A8E4 /* MetalTesting.swift */; };
 		61F26F942ACA9E9300B7AA3F /* MarchoooorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F26F932ACA9E9300B7AA3F /* MarchoooorApp.swift */; };
@@ -44,6 +53,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		611BC58A2AE3019A005A6B2E /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
+		611BC58D2AE301EA005A6B2E /* TerrainFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainFeature.swift; sourceTree = "<group>"; };
+		611BC58F2AE302C4005A6B2E /* TerrainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainView.swift; sourceTree = "<group>"; };
+		611BC5912AE30357005A6B2E /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		611BC5932AE30FF0005A6B2E /* TerrainComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainComponent.swift; sourceTree = "<group>"; };
+		611BC5952AE337AD005A6B2E /* Terrain+Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Terrain+Scene.swift"; sourceTree = "<group>"; };
+		611BC5972AE342FF005A6B2E /* TerrainInfluence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainInfluence.swift; sourceTree = "<group>"; };
+		612479142AE1ACE000C3D046 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
 		61579CB82AD0AEA500E8A8E4 /* CPUMarchingCubes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUMarchingCubes.swift; sourceTree = "<group>"; };
 		61579CBB2AD0CBA700E8A8E4 /* MetalTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalTesting.swift; sourceTree = "<group>"; };
 		61F26F902ACA9E9300B7AA3F /* Marchoooor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marchoooor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +88,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				611BC5872AE3003D005A6B2E /* ComposableArchitecture in Frameworks */,
+				612479152AE1ACE000C3D046 /* ARKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +110,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		611BC5882AE30143005A6B2E /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				611BC5892AE30193005A6B2E /* App */,
+				611BC58C2AE301CF005A6B2E /* Terrain */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		611BC5892AE30193005A6B2E /* App */ = {
+			isa = PBXGroup;
+			children = (
+				611BC58A2AE3019A005A6B2E /* AppFeature.swift */,
+				611BC5912AE30357005A6B2E /* AppView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		611BC58C2AE301CF005A6B2E /* Terrain */ = {
+			isa = PBXGroup;
+			children = (
+				611BC58D2AE301EA005A6B2E /* TerrainFeature.swift */,
+				611BC58F2AE302C4005A6B2E /* TerrainView.swift */,
+				611BC5932AE30FF0005A6B2E /* TerrainComponent.swift */,
+				611BC5952AE337AD005A6B2E /* Terrain+Scene.swift */,
+				611BC5972AE342FF005A6B2E /* TerrainInfluence.swift */,
+			);
+			path = Terrain;
+			sourceTree = "<group>";
+		};
+		612479132AE1ACE000C3D046 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				612479142AE1ACE000C3D046 /* ARKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		61579CB72AD0AE6400E8A8E4 /* CPU Marching Cubes */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +171,7 @@
 				61F26FA32ACA9E9400B7AA3F /* MarchoooorTests */,
 				61F26FAD2ACA9E9400B7AA3F /* MarchoooorUITests */,
 				61F26F912ACA9E9300B7AA3F /* Products */,
+				612479132AE1ACE000C3D046 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,6 +192,7 @@
 				61F26F952ACA9E9300B7AA3F /* ContentView.swift */,
 				61F26F972ACA9E9300B7AA3F /* Assets.xcassets */,
 				61F26FCD2ACAA10500B7AA3F /* MarchingCubesTester.swift */,
+				611BC5882AE30143005A6B2E /* Features */,
 				61579CBA2AD0CB9900E8A8E4 /* Metal Testing */,
 				61F26FC62ACA9F6F00B7AA3F /* MarchingCubes */,
 				61579CB72AD0AE6400E8A8E4 /* CPU Marching Cubes */,
@@ -205,6 +264,9 @@
 			dependencies = (
 			);
 			name = Marchoooor;
+			packageProductDependencies = (
+				611BC5862AE3003D005A6B2E /* ComposableArchitecture */,
+			);
 			productName = Marchoooor;
 			productReference = 61F26F902ACA9E9300B7AA3F /* Marchoooor.app */;
 			productType = "com.apple.product-type.application";
@@ -277,6 +339,9 @@
 				Base,
 			);
 			mainGroup = 61F26F872ACA9E9300B7AA3F;
+			packageReferences = (
+				611BC5852AE3003D005A6B2E /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = 61F26F912ACA9E9300B7AA3F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -320,14 +385,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				61F26FC52ACA9F2C00B7AA3F /* MetalSystem.swift in Sources */,
+				611BC5902AE302C4005A6B2E /* TerrainView.swift in Sources */,
 				61F26FC42ACA9F2C00B7AA3F /* MetalMarchingCubes.swift in Sources */,
+				611BC5982AE342FF005A6B2E /* TerrainInfluence.swift in Sources */,
+				611BC5942AE30FF0005A6B2E /* TerrainComponent.swift in Sources */,
+				611BC58B2AE3019A005A6B2E /* AppFeature.swift in Sources */,
+				611BC5922AE30357005A6B2E /* AppView.swift in Sources */,
 				61F26FC82ACA9F8000B7AA3F /* MarchingCubes.swift in Sources */,
 				61579CB92AD0AEA500E8A8E4 /* CPUMarchingCubes.swift in Sources */,
+				611BC5962AE337AD005A6B2E /* Terrain+Scene.swift in Sources */,
 				61F26F962ACA9E9300B7AA3F /* ContentView.swift in Sources */,
 				61F26FCA2ACA9F8D00B7AA3F /* PerlinNoise.swift in Sources */,
 				61579CBC2AD0CBA700E8A8E4 /* MetalTesting.swift in Sources */,
 				61F26FC22ACA9F2C00B7AA3F /* MetalComponent.swift in Sources */,
 				61F26FCE2ACAA10500B7AA3F /* MarchingCubesTester.swift in Sources */,
+				611BC58E2AE301EA005A6B2E /* TerrainFeature.swift in Sources */,
 				61F26FC32ACA9F2C00B7AA3F /* ComputeCube.metal in Sources */,
 				61F26FCC2ACAA02E00B7AA3F /* GPUMarchingCubes.swift in Sources */,
 				61F26F942ACA9E9300B7AA3F /* MarchoooorApp.swift in Sources */,
@@ -497,9 +569,11 @@
 				DEVELOPMENT_TEAM = KW8RLKUW3C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please please please please please please !!!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -526,9 +600,11 @@
 				DEVELOPMENT_TEAM = KW8RLKUW3C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please please please please please please !!!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -660,6 +736,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		611BC5852AE3003D005A6B2E /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		611BC5862AE3003D005A6B2E /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 611BC5852AE3003D005A6B2E /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 61F26F882ACA9E9300B7AA3F /* Project object */;
 }

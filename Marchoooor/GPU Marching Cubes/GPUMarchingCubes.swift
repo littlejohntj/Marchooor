@@ -17,21 +17,21 @@ enum MarchingCubesTest {
 class GPUMarchingCubes: ObservableObject {
     
     let metalMarchingCubes: MetalMarchingCubes
-            
-    init( cubeDistance: Float, isoLevel: Float, units: Int, seeds: [Int] ) {
+    
+    init( cubeDistance: Float, isoLevel: Float, units: Int, seeds: [Int], influences: [TerrainInfluence] ) {
         if let device = MTLCreateSystemDefaultDevice() {
             metalMarchingCubes = MetalMarchingCubes(device: device, arrayLength: ( units + 1 ) * ( units + 1 ) * ( units + 1 ) )
             metalMarchingCubes.setTestSeed(seeds: seeds)
             metalMarchingCubes.setEdgeTable()
-            metalMarchingCubes.setData(cubeDistance: cubeDistance, isoLevel: isoLevel, units: units)
+            metalMarchingCubes.setData(cubeDistance: cubeDistance, isoLevel: isoLevel, units: units, influences: influences)
         } else {
             fatalError()
         }
     }
     
-//    func sendCompute() {
-//        metalMarchingCubes.sendComputeCommand()
-//    }
+    func setData( cubeDistance: Float, isoLevel: Float, units: Int, influences: [TerrainInfluence] = [] ) {
+        metalMarchingCubes.setData(cubeDistance: cubeDistance, isoLevel: isoLevel, units: units, influences: influences)
+    }
     
     func getPositions() -> [SIMD3<Float>] {
         metalMarchingCubes.sendComputeCommand()

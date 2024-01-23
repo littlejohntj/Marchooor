@@ -6,13 +6,15 @@
 //
 
 import Foundation
+import RealityKit
 
 struct MarchingCubesTester {
     
-    let cubeDistance: Float = 0.1
-    let isoLevel: Float = 0.2
-    let units: Int = 20
-    let seeds: [Int] = MarchingCubes.testSeeds
+    var cubeDistance: Float = 0.2
+    var isoLevel: Float = -0.2
+    var units: Int = 30
+    var influences: [TerrainInfluence] = []
+    var seeds: [Int] = MarchingCubes.testSeeds
 
     let gpuMarchingCubes: GPUMarchingCubes
     let cpuMarchingCubes: CPUMarchingCubes
@@ -22,7 +24,8 @@ struct MarchingCubesTester {
             cubeDistance: cubeDistance,
             isoLevel: isoLevel,
             units: units,
-            seeds: seeds
+            seeds: seeds, 
+            influences: influences
         )
         self.cpuMarchingCubes = CPUMarchingCubes(
             cubeDistance: cubeDistance,
@@ -30,6 +33,32 @@ struct MarchingCubesTester {
             units: units,
             seed: seeds
         )
+    }
+    
+    mutating func updateIsoLevel( newValue: Float ) {
+        self.isoLevel = newValue
+        self.gpuMarchingCubes.setData(cubeDistance: cubeDistance, isoLevel: isoLevel, units: units, influences: influences)
+    }
+    
+    mutating func setTerrainInfluences( influences: [TerrainInfluence] ) {
+        self.influences = influences
+        self.gpuMarchingCubes.setData(cubeDistance: cubeDistance, isoLevel: isoLevel, units: units, influences: influences)
+    }
+    
+    func createMeshResource() -> MeshResource {
+        
+        let results = gpuMarchingCubes.getPositions()
+        
+        let indicies: [UInt32] = Array(0..<results.count).map { indicie in
+            UInt32(indicie)
+        }
+        var meshDescriptor = MeshDescriptor()
+        meshDescriptor.positions = .init( results )
+        meshDescriptor.primitives = .triangles(indicies)
+        
+        let mesh = try! MeshResource.generate(from: [meshDescriptor])
+        return mesh
+        
     }
     
 }

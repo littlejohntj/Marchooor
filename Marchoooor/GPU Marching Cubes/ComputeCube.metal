@@ -8,12 +8,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
-// Helper function definitions
-float perlin(device const int* seed, float xs, float ys, float zs);
-float fade(float t);
-float lerp(float a, float b, float t);
-float grad(int hash, float x, float y, float z);
-
+// Type defs
 struct Point3D {
     float x;
     float y;
@@ -30,6 +25,24 @@ struct DynamicArray {
     int currentSize;    // Number of valid items in the array.
 };
 
+struct Influence {
+    float x_center;
+    float z_center;
+    int raise;
+    float radius;
+    float strength;
+};
+
+// Helper function definitions
+float perlin(device const int* seed, float xs, float ys, float zs, device const Influence* influences, int influenceCount);
+float perlin2D(device const int* seed, float xs, float ys);
+float hillFunction(device const int* seed, float x, float z, int influenceCount, device const Influence* influences);
+float influenceFunction(float x, float z, float x_center, float z_center, float r);
+float totalInfluence(float x, float z, int influenceCount, device const Influence* influences);
+float fade(float t);
+float lerp(float a, float b, float t);
+float grad(int hash, float x, float y, float z);
+
 kernel void compute_cube(device const int* inputs,
                          device const float* inX,
                          device const float* inY,
@@ -40,7 +53,11 @@ kernel void compute_cube(device const int* inputs,
                          device const int* edgesLength,
                          device const float* cubeDistance,
                          device const float* isoLevel,
+                         device const Influence* influences,
+                         device const int* influenceCount,
                          device float* xPositions,
+                         device float* yPositions,
+                         device float* zPositions,
                          device int* positionCount,
                          uint index [[thread_position_in_grid]])
 {
@@ -84,7 +101,7 @@ kernel void compute_cube(device const int* inputs,
         float vertexPositionY = startingY + cornerDeltaY;
         float vertexPositionZ = startingZ + cornerDeltaZ;
                 
-        float noiseValue = perlin(seed, vertexPositionX, vertexPositionY, vertexPositionZ);
+        float noiseValue = perlin(seed, vertexPositionX, vertexPositionY, vertexPositionZ, influences, influenceCount[0]);
         
 //        pr[index] = noiseValue;
         
@@ -132,44 +149,70 @@ kernel void compute_cube(device const int* inputs,
             float endVertexY = startingY + endCornerPositionY;
             float endVertexZ = startingZ + endCornerPositionZ;
             
-            float startVertexNoiseLevel = perlin(seed, startVertexX, startVertexY, startVertexZ);
-            float endVertexNoiseLevel = perlin(seed, endVertexX, endVertexY, endVertexZ);
-//            
+            float startVertexNoiseLevel = perlin(seed, startVertexX, startVertexY, startVertexZ, influences, influenceCount[0]);
+            float endVertexNoiseLevel = perlin(seed, endVertexX, endVertexY, endVertexZ, influences, influenceCount[0]);
+//
             float t = ( isoLevel[0] - startVertexNoiseLevel ) / ( endVertexNoiseLevel - startVertexNoiseLevel );
             float interpolatedVertexX = startVertexX + ( t * ( endVertexX - startVertexX ) );
             float interpolatedVertexY = startVertexY + ( t * ( endVertexY - startVertexY ) );
             float interpolatedVertexZ = startVertexZ + ( t * ( endVertexZ - startVertexZ ) );
 //            
             int positionIndex = ( index * 20 ) + l;
-            
-//            xPositions[ positionIndex ] = 10.0;
-            
-//            xPositions[ ( index * 20 ) + l ] = interpolatedVertexX;
-//            yPositions[ ( index * 20 ) + l ] = interpolatedVertexY;
-//            zPositions[ ( index * 20 ) + l ] = interpolatedVertexZ;
-//            count += 1;
+                        
+            xPositions[ positionIndex ] = interpolatedVertexX;
+            yPositions[ positionIndex ] = interpolatedVertexY;
+            zPositions[ positionIndex ] = interpolatedVertexZ;
             
         }
     }
     
-    // Try commenting out this line
-    xPositions[index] = 3.4;
-    
-    
-    positionCount[index] = 4;
-    
+    positionCount[index] = length;
         
 }
 
-float perlin(device const int* seed, float xs, float ys, float zs) {
+float perlin(device const int* seed, float xs, float ys, float zs, device const Influence* influences, int influenceCount) {
     
-//    float s1 = 0.0001;
-//    float s2 = ys;
-//    float s3 = zs;
+    // Get the height from the hill function
+    float height = hillFunction(seed, xs, zs, influenceCount, influences);
     
-//    int foo = int(s1) & 255;
+    // Return a value based on the difference between the height and the z-coordinate
+    return height - ys;
+
+    
+//    float xFloor = floor(xs);
+//    float xDelta = xs - xFloor;
+//    float xPi = xDelta * 6.28;
 //    
-//    return 5.0;
+//    float zFloor = floor(zs);
+//    float zDelta = zs - zFloor;
+//    float zPi = zDelta * 6.28;
+//    
+//    float xWaveHeight = sin(xPi);
+//    float zWaveHeight = sin(zPi);
+//    
+//    if ( ys < xWaveHeight + 1 && ys < zWaveHeight + 1 ) {
+//        return 0.3;
+//    } else {
+//        return 0;
+//    }
+    
+//    float xVec = xs - 2.5;
+//    float yVec = ys;
+//    float zVec = zs - 2.5;
+//    
+//    float xSqrd = xVec * xVec;
+//    float ySqrd = yVec * yVec;
+//    float zSqrd = zVec * zVec;
+//    
+//    float sqrdTotal = xSqrd + ySqrd + zSqrd;
+//    
+//    float distance = sqrt(sqrdTotal);
+//    
+//    if ( distance < 2.5 ) {
+//        return 0.5;
+//    } else {
+//        return 0;
+//    }
     
     int X = int(xs) & 255;
     int Y = int(ys) & 255;
@@ -222,6 +265,34 @@ float perlin(device const int* seed, float xs, float ys, float zs) {
             );
 }
 
+float perlin2D(device const int* seed, float xs, float ys) {
+    int X = int(xs) & 255;
+    int Y = int(ys) & 255;
+    
+    float x = xs - floor(xs);
+    float y = ys - floor(ys);
+    
+    float u = fade(x);
+    float v = fade(y);
+    
+    int A = seed[X] + Y;
+    int B = seed[X + 1] + Y;
+    
+    return lerp(
+                lerp(
+                     grad(seed[A], x, y, 0.0),
+                     grad(seed[B], x-1, y, 0.0),
+                     u
+                     ),
+                lerp(
+                     grad(seed[A+1], x, y-1, 0.0),
+                     grad(seed[B+1], x-1, y-1, 0.0),
+                     u
+                     ),
+                v
+                );
+}
+
 float fade(float t) {
     return t * t * t * (t * (t * 6 - 15) + 10);
 }
@@ -242,4 +313,37 @@ float grad(int hash, float x, float y, float z) {
     Point3D grad = g3[h % 12];
     return ( grad.x * x ) + ( grad.y * y ) + ( grad.z * z );
     
+}
+
+float hillFunction(device const int* seed, float x, float z, int influenceCount, device const Influence* influences) {
+    // Use 2D noise for base terrain
+    float baseHeight = perlin2D(seed, x, z);
+    
+    // Use another 2D noise function, possibly at a different scale, for hill height
+    float hillHeight = perlin2D(seed, x * 0.5, z * 0.5);
+    
+    float influence = totalInfluence(x, z, influenceCount, influences);
+    
+    // Combine the two in some way to get the final height
+    return baseHeight + hillHeight * 0.5 + influence; // The 0.5 multiplier makes hills half as tall as base terrain
+}
+
+float totalInfluence(float x, float z, int influenceCount, device const Influence* influences) {
+    float total = 0.0;
+    for (int i = 0; i < influenceCount; i++) {
+        
+        if ( influences[i].raise == 1 ) {
+            total += influenceFunction(x, z, influences[i].x_center, influences[i].z_center, influences[i].radius) * influences[i].strength;
+        } else {
+            total -= influenceFunction(x, z, influences[i].x_center, influences[i].z_center, influences[i].radius) * influences[i].strength;
+        }
+        
+    }
+    return total;
+}
+
+float influenceFunction(float x, float z, float x_center, float z_center, float r) {
+    float distance = sqrt((x - x_center) * (x - x_center) + (z - z_center) * (z - z_center));
+    float influence = max(0.0, 1.0 - distance / r);
+    return influence;
 }

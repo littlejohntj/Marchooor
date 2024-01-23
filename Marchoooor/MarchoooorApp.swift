@@ -6,12 +6,21 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct MarchoooorApp: App {
+    
+    let store = Store(initialState: AppFeature.State(
+        terrain: TerrainFeature.State()
+    )) {
+        AppFeature()
+    }
+
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppView(store: store)
         }
     }
 }
